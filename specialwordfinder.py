@@ -1,9 +1,10 @@
-"""Word Finder: finds random words from a dictionary."""
+"""Special Word Finder: finds random words from a dictionary."""
 
-from random import choice
+from wordfinder import WordFinder
 
-class WordFinder:
+class SpecialWordFinder(WordFinder):
     """Finds a random word from a dictionary.
+       When reading the file, ignore blank lines and lines starting with '#'.
 
     Assume you have a file at words.txt that looks like this:
 
@@ -13,7 +14,7 @@ class WordFinder:
 
     Working with this class should work like this:
     
-    >>> wf = WordFinder("words.txt")
+    >>> wf = SpecialWordFinder("words.txt")
     3 words read
 
     >>> wf.random()
@@ -29,17 +30,9 @@ class WordFinder:
     'dog'
     """
 
-    def __init__(self, filename):
-        self.words = self.read_file(filename)
-        print(f"{len(self.words)} words read.")
-
     def read_file(self, fname):
         """Reads a file containing a list of words and returns a list of those words."""
         file = open(fname, 'r')
-        words = [line.rstrip() for line in file]
+        words = [line.strip() for line in file if line.strip() and not line.startswith('#')]
         file.close()
         return words
-
-    def random(self):
-        """Returns a random word from the list of words."""
-        return choice(self.words)
